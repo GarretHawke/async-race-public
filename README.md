@@ -1,2 +1,4 @@
-# async-race-public
-public repo for task Async Race for deployment on Netlify
+# ts-scss
+
+1. husky 4.3.7 - выше надо настраивать по другому - неудобно и вроде стало платным.
+2. svgo-all не работает надо пофиксить.

@@ -1,0 +1,41 @@
+.header {
+  margin: 0 20px 20px;
+}
+
+.button-wrapper {
+  display: flex;
+}
+
+.page-garage,
+.page-winners {
+  padding: 5px;
+  background-color: #778899;
+  color: #dcdcdc;
+  border-radius: 5px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #2f4f4f;
+    color: #faf0e6;
+  }
+
+  &:first-child {
+    margin-right: 10px;
+  }
+}
+
+
+.active-page {
+  background-color: #faf0e6;
+  color: #2f4f4f;
+
+  &:hover {
+    background-color: #faf0e6;
+    color: #2f4f4f;
+    cursor: default;
+  }
+}
+
+

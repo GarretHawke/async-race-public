@@ -1,0 +1,54 @@
+.car-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  //border-top: 2px solid #2f4f4f;
+  border-bottom: 2px solid #2f4f4f;
+}
+
+.car-header-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.car-header-button-wrapper {
+  display: flex;
+  min-width: 140px;
+  justify-content: space-between;
+}
+
+.button {
+  padding: 5px 10px;
+  background-color: #778899;
+  color: #dcdcdc;
+  border-radius: 5px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #2f4f4f;
+    color: #faf0e6;
+  }
+}
+
+.car-name {
+  margin-left: 10px;
+}
+
+.car-field-wrapper {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 10px;
+}
+
+.car-controls-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 60px;
+}
+
+.road-wrapper {
+  margin-left: 10px;
+}
