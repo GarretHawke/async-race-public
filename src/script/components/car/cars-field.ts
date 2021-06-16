@@ -4,6 +4,7 @@ import './car.scss';
 import { createCar, deleteCar, getCar, getCars } from "@/shared/api";
 import CarComponent from "./car-component";
 import Car from "./car";
+import PageGarage from "../page-garage";
 
 export default class CarsField extends Component {
   newCar: CarComponent;
@@ -12,6 +13,7 @@ export default class CarsField extends Component {
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['cars-wrapper']);
+
 
     (async () => {
       let carsInterface = await getCars(1);

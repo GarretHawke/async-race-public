@@ -42,8 +42,6 @@ export default class AddCarController extends Component {
       this.onCreateClick?.();
       let carItem = this.getData();
       createCar(carItem);
-
-      new CarsField().addCar();
       console.log('-------------');
     }
 

@@ -1,0 +1,32 @@
+.winner-wrapper {
+  display: flex;
+  max-width: 460px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: center;
+  background-color: #fff0f5;
+  color: #778899;
+  width: 100%;
+}
+
+.column-number,
+.column-image,
+.column-name,
+.column-wins,
+.column-time {
+  padding: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.column-number {
+  width: 10%;
+}
+
+.column-image,
+.column-name,
+.column-time {
+  width: 25%;
+}

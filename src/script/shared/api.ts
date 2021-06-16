@@ -1,6 +1,7 @@
 import Car from "@/components/car/car";
 import Cars from "@/components/car/cars";
 import Winner from "@/components/winners/winner";
+import Winners from "@/components/winners/winners";
 
 const base: string = 'http://localhost:3000';
 
@@ -9,7 +10,7 @@ const winners: string = `${base}/winners`;
 const engine: string = `${base}/engine`;
 
 
-export const getCars = async (page: number = 1, limit: number = 7): Promise<Cars> => {
+export const getCars = async (page: number = 1, limit: number = 6): Promise<Cars> => {
   let response = await fetch(`${garage}?_page=${page}&_limit=${limit}`);
 
   let cars = await response.json();
@@ -72,7 +73,20 @@ export const getSortOrder = (sort: number, order: number) => {
   return '';
 }
 
-export const getWinners = async ({ page, limit = 10, sort, order }: {
+export const getWinners = async (page: number = 1, limit: number = 10): Promise<Winners> => {
+  let response = await fetch(`${winners}?_page=${page}&_limit=${limit}`);
+
+  let cars = await response.json();
+  let carsCount = Number(response.headers.get('X-Total-Count'));
+
+return {
+    cars,
+    carsCount,
+    page
+  };
+}
+
+/* export const getWinners = async ({ page, limit = 10, sort, order }: {
   page: number,
   limit?: number,
   sort?: number,
@@ -85,7 +99,7 @@ export const getWinners = async ({ page, limit = 10, sort, order }: {
     items: await Promise.all(items.map(async (winner: any) => ({ ...winner, car: await getCar(winner.id) }))),
     count: Number(response.headers.get('X-Total-Count')),
   };
-}
+} */
 
 export const getWinner = async (id: number): Promise<Winner> => {
   return (await fetch(`${winners}/${id}`)).json();

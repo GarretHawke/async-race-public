@@ -1,4 +1,6 @@
 import Component from "@/common";
+import { createCar } from "@/shared/api";
+import { generateRandomCars } from "@/shared/utils";
 import './controls.scss';
 
 export default class ControlButtons extends Component {
@@ -32,6 +34,12 @@ export default class ControlButtons extends Component {
     this.buttonGenerate = new Component(this.element, 'button', ['control-button'], 'Generate 100');
     this.buttonGenerate.element.onclick = () => {
       this.onGenerateClick?.();
+      const arr = generateRandomCars();
+      arr.map((car) => {
+        (async () => {
+          await createCar(car);
+        })();
+      })
     }
   }
 }

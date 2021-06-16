@@ -26,6 +26,16 @@ class App extends Component {
     }
 
     this.pageGarage = new PageGarage(this.element);
+    let text = new Component(this.pageGarage.element, 'span');
+    text.element.innerText = `
+    Привет! Это задание оказалось довольно сложным для меня, поэтому у меня уходит ооочень много времени
+    на его разбор и решение. Ко времени дедлайна мне удалось реализовать только получение гаража с сервера, получение победителей,
+    добавление рандомных 100 машинок создание и удаление одной машинки(если что, машинки генерятся при обновлении страницы, пока не могу никак придумать,
+    как достучаться до генерации в реальном времени...). Буду благодарна, если ты мне дашь еще немного времени
+    и проверишь в последний день. Я очень стараюсь, и надеюсь, что еще парочка дней помогут мне добавить еще
+    функционала в это приложение. Ну а если не захочешь - это твое решение, все равно спасибо!) Я в первую очередь
+    здесь за знаниями, а не получением баллов любой ценой.
+    С уважением, Garret Hawke`;
     this.pageWinners = new PageWinners(this.element);
   }
 }
@@ -33,63 +43,3 @@ class App extends Component {
 const rootDiv = document.getElementById('root');
 
 const app = new App(rootDiv);
-//(window as any).app = app;
-
-
-/* import { GamePage } from '@/pages';
-import './style/index.scss';
-
-const rootDiv = document.getElementById('root');
-
-const gamePage = new GamePage().render();
-
-rootDiv.append(gamePage); */
-
-//toggle rout buttons
-
-/* const buttonGarage = document.querySelector('.page-garage');
-const buttonWinners = document.querySelector('.page-winners');
-
-buttonGarage.addEventListener('click', () => {
-  if (buttonGarage.classList.contains('active-page')) return;
-  else {
-    buttonGarage.classList.add('active-page');
-    buttonWinners.classList.remove('active-page');
-  }
-});
-
-buttonWinners.addEventListener('click', () => {
-  if (buttonWinners.classList.contains('active-page')) return;
-  else {
-    buttonWinners.classList.add('active-page');
-    buttonGarage.classList.remove('active-page');
-  }
-});
-
-//
-
-const garagePage = document.getElementById('garage');
-const winnersPage = document.getElementById('winners');
-
-const getActivePage = () => {
-  if (buttonGarage.classList.contains('active-page')) {
-    winnersPage.style.display = 'none';
-    garagePage.style.display = '';
-  } else {
-    winnersPage.style.display = '';
-    garagePage.style.display = 'none';
-  }
-  if (buttonWinners.classList.contains('active-page')) {
-    winnersPage.style.display = '';
-    garagePage.style.display = 'none';
-  } else {
-    winnersPage.style.display = 'none';
-    garagePage.style.display = '';
-  }
-}
-
-buttonGarage.addEventListener('click', getActivePage);
-buttonWinners.addEventListener('click', getActivePage); */
-
-
-

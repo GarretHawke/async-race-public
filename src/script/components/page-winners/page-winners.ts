@@ -1,4 +1,5 @@
 import Component from '@/common';
+import WinnerField from '../winners/winners-field';
 import './page-winners.scss';
 
 export default class PageWinners extends Component {
@@ -31,6 +32,8 @@ export default class PageWinners extends Component {
   columnWins: Component;
 
   columnTime: Component;
+
+  winnersField: WinnerField;
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['page']);
@@ -84,6 +87,8 @@ export default class PageWinners extends Component {
 
     this.tableWrapper = new Component(this.element, 'div', ['table-wrapper']);
     this.tableWrapper.element.append(this.tableHeader.element);
+
+    this.winnersField = new WinnerField(this.element);
   }
 
   enablePage(): void {
