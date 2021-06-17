@@ -30,8 +30,9 @@ export default class PageGarage extends Component {
     super(parentNode, 'div', ['page']);
 
     (async () => {
+
       let carsInterface = await getCars(1);
-      this.pageTitle = new Component(this.element, 'h2', ['page-title'], `Garage (${carsInterface.carsCount})`);
+      this.pageTitle = new Component(this.element, 'h2', ['page-title'], `Garage <span id="cars-count"></span> `);
 
       this.pageSubtitle = new Component(this.element, 'span', ['page-subtitle'], `Page # ${carsInterface.page}`);
 
@@ -55,6 +56,23 @@ export default class PageGarage extends Component {
 
       this.carsContainer = new CarsField(this.element);
 
+      const buttonCreate = document.getElementById('create');
+      const buttonUpdate = document.getElementById('update');
+
+      buttonCreate.addEventListener('click', () => {
+        (async () => {
+          await getCars(1);
+          this.carsContainer.addCar();
+        })();
+      });
+
+      buttonUpdate.addEventListener('click', () => {
+        (async () => {
+          await getCars(1);
+          this.carsContainer.element.innerHTML = '';
+          this.carsContainer.updateCar();
+        })();
+      });
 
 
     })();

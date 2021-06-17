@@ -2,7 +2,8 @@ import Component from "@/common";
 import Car from "./car";
 import { renderCarImage } from "@/shared/carImage";
 import './car.scss';
-import { deleteCar, getCar } from "@/shared/api";
+import { deleteCar, getCar, getCars } from "@/shared/api";
+import EventObserver from "@/shared/event-observer";
 
 export default class CarComponent extends Component {
   carHeaderWrapper: Component;
@@ -44,7 +45,10 @@ export default class CarComponent extends Component {
 
     this.selectButton = new Component(this.buttonWrapperCarHeader.element, 'button', ['button', 'select-button'], 'Select');
     this.selectButton.element.onclick = () =>{
-      this.onSelectClick?.();
+      (async () => {
+        await getCars(1);
+      })();
+      this.onSelectClick();
     }
 
     this.removeButton = new Component(this.buttonWrapperCarHeader.element, 'button', ['button', 'remove-button'], 'Remove');

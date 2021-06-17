@@ -5,35 +5,66 @@ import { createCar, deleteCar, getCar, getCars } from "@/shared/api";
 import CarComponent from "./car-component";
 import Car from "./car";
 import PageGarage from "../page-garage";
+import EventObserver from "@/shared/event-observer";
 
 export default class CarsField extends Component {
   newCar: CarComponent;
 
-  //selectCar: (() => void) | null = null;
+  nameObserver: EventObserver;
+
+  colorObserver: EventObserver;
+
+  countCarsObserver: EventObserver;
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['cars-wrapper']);
 
+    this.nameObserver = new EventObserver();
+    this.colorObserver = new EventObserver();
+    this.countCarsObserver = new EventObserver();
+
+    const newName = document.getElementById('name-update');
+    const newColor = document.getElementById('color-update');
+    const newCountCars = document.getElementById('cars-count');
 
     (async () => {
       let carsInterface = await getCars(1);
+
+      this.countCarsObserver.subscribe((text: number) => {
+        newCountCars.innerText = `${text}`;
+      });
+
+      this.countCarsObserver.broadcast(carsInterface.carsCount);
+
       carsInterface.cars.map((car) => {
         (async () => {
           let carInterface = await getCar(car.id);
           this.newCar = new CarComponent(this.element, carInterface);
           this.newCar.onRemoveClick = () => {
             (async () => {
+              await getCars(1);
               await deleteCar(car.id);
+              carsInterface = await getCars(1);
+              this.countCarsObserver.broadcast(carsInterface.carsCount);
             })();
           }
 
           this.newCar.onSelectClick = () => {
-            console.log('select');
-            this.selectCar.bind(carInterface);
-          }
+            this.nameObserver.subscribe((text: string) => {
+              (newName as HTMLInputElement).value = text;
+            });
+            this.colorObserver.subscribe((text: string) => {
+              (newColor as HTMLInputElement).value = text;
+            });
 
+            this.nameObserver.broadcast(carInterface.name);
+            this.colorObserver.broadcast(carInterface.color);
+            localStorage.setItem('id', `${carInterface.id}`);
+          };
 
           this.element.append(this.newCar.element);
+
+          this.countCarsObserver.broadcast(carsInterface.carsCount);
         })();
       });
     })();
@@ -48,23 +79,59 @@ export default class CarsField extends Component {
     })();
   }
 
+  /* updateCar(): void {
+    (async () => {
+      const carId = Number(localStorage.getItem('id'));
+      let carInterface = await getCar(carId);
 
-  /* getData(): Car {
-    const obj: Car = {
-      name: (this.inputTextUpdateCar.element as HTMLInputElement).value,
-      color: (this.inputColorUpdateCar.element as HTMLInputElement).value
-    }
-
-    return obj;
+      //this.newCar = new CarComponent(this.element, carInterface);
+    })();
   } */
-  selectCar(obj: Car): Car  {
-    const newObj: Car = {
-      name: obj.name,
-      color: obj.color,
-      id: obj.id
-    }
-    console.log(newObj);
 
-    return newObj;
+  updateCar(): void {
+    const newName = document.getElementById('name-update');
+    const newColor = document.getElementById('color-update');
+    const newCountCars = document.getElementById('cars-count');
+    (async () => {
+      let carsInterface = await getCars(1);
+
+      this.countCarsObserver.subscribe((text: number) => {
+        newCountCars.innerText = `${text}`;
+      });
+
+      this.countCarsObserver.broadcast(carsInterface.carsCount);
+
+      carsInterface.cars.map((car) => {
+        (async () => {
+          let carInterface = await getCar(car.id);
+          this.newCar = new CarComponent(this.element, carInterface);
+          this.newCar.onRemoveClick = () => {
+            (async () => {
+              await getCars(1);
+              await deleteCar(car.id);
+              carsInterface = await getCars(1);
+              this.countCarsObserver.broadcast(carsInterface.carsCount);
+            })();
+          }
+
+          this.newCar.onSelectClick = () => {
+            this.nameObserver.subscribe((text: string) => {
+              (newName as HTMLInputElement).value = text;
+            });
+            this.colorObserver.subscribe((text: string) => {
+              (newColor as HTMLInputElement).value = text;
+            });
+
+            this.nameObserver.broadcast(carInterface.name);
+            this.colorObserver.broadcast(carInterface.color);
+            localStorage.setItem('id', `${carInterface.id}`);
+          };
+
+          this.element.append(this.newCar.element);
+
+          this.countCarsObserver.broadcast(carsInterface.carsCount);
+        })();
+      });
+    })();
   }
 }

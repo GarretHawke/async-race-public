@@ -5,6 +5,7 @@ import { createCar, deleteCar, getCar, getCars } from "@/shared/api";
 import CarComponent from "../car";
 import PageGarage from "../page-garage";
 import CarsField from "../car/cars-field";
+import EventObserver from "@/shared/event-observer";
 
 export default class AddCarController extends Component {
   inputWrapperNewCar: Component;
@@ -23,8 +24,6 @@ export default class AddCarController extends Component {
 
   carsField: CarsField;
 
-  onOk: ((data: Car) => Car) | null = null;
-
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['controls__input-wrapper']);
 
@@ -42,9 +41,7 @@ export default class AddCarController extends Component {
       this.onCreateClick?.();
       let carItem = this.getData();
       createCar(carItem);
-      console.log('-------------');
     }
-
   }
 
   getData(): Car {

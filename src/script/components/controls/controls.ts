@@ -3,7 +3,7 @@ import AddCarController from "./addCarController";
 import UpdateCarController from "./updateCarController";
 import ControlButtons from "./control-buttons";
 import './controls.scss';
-import { createCar } from "@/shared/api";
+import { createCar, getCars } from "@/shared/api";
 import CarsField from "../car/cars-field";
 
 export default class Controls extends Component {
@@ -21,13 +21,20 @@ export default class Controls extends Component {
     this.inputAdd = new AddCarController(this.element);
     this.inputAdd.onCreateClick = () => {
       (async () => {
+        await getCars(1);
         this.carsContainer = new CarsField();
-        this.carsContainer.addCar();
-        console.log('\\\\\\');
+        //await getCars(1);
+        //this.carsContainer.addCar();
       })();
     }
 
     this.inputUpdate = new UpdateCarController(this.element);
+    this.inputUpdate.onUpdateClick = () => {
+      (async () => {
+        await getCars(1);
+        this.carsContainer = new CarsField();
+      });
+    }
 
     this.controlButtons = new ControlButtons(this.element);
   }
