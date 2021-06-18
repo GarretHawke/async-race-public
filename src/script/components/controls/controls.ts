@@ -37,6 +37,14 @@ export default class Controls extends Component {
     }
 
     this.controlButtons = new ControlButtons(this.element);
+    this.controlButtons.onGenerateClick = () => {
+      (async () => {
+        await getCars(1);
+        this.carsContainer = new CarsField();
+        await getCars(1);
+        this.carsContainer.updateCar();
+      })();
+    }
   }
 }
 

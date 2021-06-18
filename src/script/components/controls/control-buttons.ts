@@ -1,6 +1,7 @@
 import Component from "@/common";
-import { createCar } from "@/shared/api";
+import { createCar, getCars } from "@/shared/api";
 import { generateRandomCars } from "@/shared/utils";
+import CarsField from "../car/cars-field";
 import './controls.scss';
 
 export default class ControlButtons extends Component {
@@ -11,6 +12,8 @@ export default class ControlButtons extends Component {
   buttonReset: Component;
 
   buttonGenerate: Component;
+
+  carsField: CarsField;
 
   onRaceClick: (() => void) | null = null;
 
@@ -32,6 +35,7 @@ export default class ControlButtons extends Component {
     }
 
     this.buttonGenerate = new Component(this.element, 'button', ['control-button'], 'Generate 100');
+    this.buttonGenerate.element.id = 'generate';
     this.buttonGenerate.element.onclick = () => {
       this.onGenerateClick?.();
       const arr = generateRandomCars();
@@ -39,7 +43,14 @@ export default class ControlButtons extends Component {
         (async () => {
           await createCar(car);
         })();
-      })
+      });
+
+      (async () => {
+        await getCars(1);
+        this.carsField = new CarsField();
+        await getCars(1);
+        this.carsField.updateCar();
+      })();
     }
   }
 }
