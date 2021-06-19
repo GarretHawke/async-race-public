@@ -36,6 +36,8 @@ export default class CarComponent extends Component {
 
   car: Component;
 
+  flag: Component;
+
   constructor(parentNode: HTMLElement | null = null, carInterface: Car) {
     super(parentNode, 'div', ['car-wrapper']);
 
@@ -45,16 +47,17 @@ export default class CarComponent extends Component {
 
     this.selectButton = new Component(this.buttonWrapperCarHeader.element, 'button', ['button', 'select-button'], 'Select');
     this.selectButton.element.onclick = () =>{
+      this.onSelectClick?.();
       (async () => {
         await getCars(1);
       })();
-      this.onSelectClick();
     }
 
     this.removeButton = new Component(this.buttonWrapperCarHeader.element, 'button', ['button', 'remove-button'], 'Remove');
     this.removeButton.element.onclick = () =>{
       this.onRemoveClick?.();
       (async () => {
+        await getCars(1);
         await this.destroy();
       })();
     }
@@ -78,5 +81,9 @@ export default class CarComponent extends Component {
     this.roadWrapper = new Component(this.carField.element, 'div', ['road-wrapper']);
 
     this.car = new Component(this.roadWrapper.element, 'div', ['car'], `${renderCarImage(carInterface.color)}`);
+    this.car.element.id = `car-${carInterface.id}`;
+
+    this.flag = new Component(this.roadWrapper.element, 'div', ['flag'], '🏁');
+    this.flag.element.id = `flag-${carInterface.id}`;
   }
 }

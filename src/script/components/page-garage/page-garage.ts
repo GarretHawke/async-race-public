@@ -32,9 +32,10 @@ export default class PageGarage extends Component {
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['page']);
 
+
+
     (async () => {
 
-      let carsInterface = await getCars(1);
       this.pageTitle = new Component(this.element, 'h2', ['page-title'], `Garage <span id="cars-count"></span>`);
 
       this.pageSubtitle = new Component(this.element, 'span', ['page-subtitle'], `Page # <span id="page-count">1</span>`);
@@ -46,8 +47,6 @@ export default class PageGarage extends Component {
       this.pageCountObserver.subscribe((text: number) => {
         pagesCount.innerText = `${text}`;
       });
-
-
 
       this.buttonLeft = new Component(this.element, 'button', ['navigate-button'], '<');
       this.buttonLeft.element.id = 'back-page';

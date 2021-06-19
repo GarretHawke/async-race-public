@@ -1,11 +1,12 @@
 import Component from "@/common";
 import Cars from "./cars";
 import './car.scss';
-import { createCar, deleteCar, getCar, getCars } from "@/shared/api";
+import { createCar, deleteCar, getCar, getCars, startEngine } from "@/shared/api";
 import CarComponent from "./car-component";
 import Car from "./car";
 import PageGarage from "../page-garage";
 import EventObserver from "@/shared/event-observer";
+import { animation, getDistanceBetweenElements, getPositionAtCenter } from "@/shared/utils";
 
 export default class CarsField extends Component {
   newCar: CarComponent;
@@ -21,6 +22,8 @@ export default class CarsField extends Component {
   buttonForward: HTMLElement;
 
   pageCountObserver: EventObserver;
+
+  flag: Component;
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['cars-wrapper']);
@@ -45,12 +48,14 @@ export default class CarsField extends Component {
     });
 
 
+
     (async () => {
       const pagesCount = document.getElementById('page-count');
 
       this.pageCountObserver.subscribe((text: number) => {
         pagesCount.innerText = `${text}`;
       });
+
       let page: number = Number(pagesCount.innerText);;
 
       this.pageCountObserver.broadcast(page);
@@ -67,6 +72,20 @@ export default class CarsField extends Component {
         (async () => {
           let carInterface = await getCar(car.id);
           this.newCar = new CarComponent(this.element, carInterface);
+
+          //const flag = document.getElementById('flag');
+
+          this.newCar.onStartClick = () => {
+            (async () => {
+              const flag = document.getElementById(`flag-${carInterface.id}`);
+              const carImg = document.getElementById(`car-${carInterface.id}`)
+              const { velocity, distance } = await startEngine(carInterface.id);
+              const time = Math.round(distance / velocity);
+              const htmlDistance = Math.floor(getDistanceBetweenElements(carImg, flag)) - 50;
+              animation(carImg, htmlDistance, time);
+            })();
+          }
+
           this.newCar.onRemoveClick = () => {
             (async () => {
               await getCars(page);
@@ -89,6 +108,33 @@ export default class CarsField extends Component {
             localStorage.setItem('id', `${carInterface.id}`);
           };
 
+
+
+          //drive
+
+          //const { velocity, distance } = await startEngine(car.id);
+          //const time = Math.round(distance / velocity);
+
+          /* this.newCar.onStartClick = () => {
+            (async () => {
+              const { velocity, distance } = await startEngine(car.id);
+              const time = Math.round(distance / velocity);
+              const htmlDistance = Math.floor(getDistanceBetweenElements(this.newCar.element, flag));
+              animation(this.newCar.element, htmlDistance, time);
+            })(); */
+
+            //console.log(animation(this.newCar.element, htmlDistance, time));
+
+          //const htmlDistance = Math.floor(getDistanceBetweenElements(this.newCar.element, flag));
+          //console.log('----', time);
+
+          /* this.newCar.onStartClick = () => {
+            console.log(animation(this.newCar.element, htmlDistance, time));
+          } */
+
+          //animation(this.newCar.element, htmlDistance, time);
+
+          //
           this.element.append(this.newCar.element);
 
           this.countCarsObserver.broadcast(carsInterface.carsCount);
@@ -98,22 +144,23 @@ export default class CarsField extends Component {
   }
 
   addCar(): void {
+
+    const pagesCount = document.getElementById('page-count');
+
+    this.pageCountObserver.subscribe((text: number) => {
+      pagesCount.innerText = `${text}`;
+    });
+    let page: number = Number(pagesCount.innerText);
+
+    this.pageCountObserver.broadcast(page);
+
     (async () => {
-      let cars = await getCars(1);
+      let cars = await getCars(page);
       let car = await getCar(cars.carsCount);
       let addedCar = new CarComponent(this.element, car);
       this.element.append(addedCar.element);
     })();
   }
-
-  /* updateCar(): void {
-    (async () => {
-      const carId = Number(localStorage.getItem('id'));
-      let carInterface = await getCar(carId);
-
-      //this.newCar = new CarComponent(this.element, carInterface);
-    })();
-  } */
 
   updateCar(): void {
     const pagesCount = document.getElementById('page-count');
